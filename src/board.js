@@ -162,6 +162,16 @@ Board.prototype.placePiece = function (pos, color) {
  * the Board for a given color.
  */
 Board.prototype.validMoves = function (color) {
+  const validMoves = [];
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      if (this.validMove([row, col], color)) {
+        validMoves.push([row, col]);
+      }
+    }
+  }
+
+  return validMoves;
 };
 
 /**
