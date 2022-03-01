@@ -204,7 +204,7 @@ Board.prototype.print = function () {
     for (let j = 0; j < 8; j++) {
       let pos = [i, j];
       rowString +=
-        (this.getPiece(pos) ? this.getPiece(pos).toString() : ".");
+        (this.getPiece(pos) ? ` ${ this.getPiece(pos).toString()} ` : ' . ');
     }
 
     console.log(rowString);

@@ -68,7 +68,7 @@ Game.prototype.playTurn = function (callback) {
     }
   } else {
     const pos = this.phil.bestMove();
-    console.log(`Phil says... Hmmm... I think i'll go here ${pos}`);
+    console.log(`Phil: Hmmm... I think i'll go here ${pos}`);
     if (!this.board.validMove(pos, this.turn)) {
       console.log("Invalid move!");
       this.playTurn(callback);
