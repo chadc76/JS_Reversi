@@ -3,6 +3,7 @@ if (typeof window === 'undefined'){
   var readline = require("readline");
   var Piece = require("./piece.js");
   var Board = require("./board.js");
+  var AIPlayer = require("./aiPlayer.js");
 }
 // DON'T TOUCH THIS CODE
 
@@ -12,6 +13,7 @@ if (typeof window === 'undefined'){
 function Game () {
   this.board = new Board();
   this.turn = "black";
+  this.phil = new AIPlayer('white', this.board);
 };
 
 /**
@@ -46,13 +48,27 @@ Game.prototype.play = function () {
  */
 Game.prototype.playTurn = function (callback) {
   this.board.print();
-  rlInterface.question(
-    `${this.turn}, where do you want to move?`,
-    handleResponse.bind(this)
-  );
+  if (this.turn === 'black') {
+    rlInterface.question(
+      `${this.turn}, where do you want to move?`,
+      handleResponse.bind(this)
+    );
 
-  function handleResponse(answer) {
-    const pos = JSON.parse(answer);
+    function handleResponse(answer) {
+      const pos = JSON.parse(answer);
+      if (!this.board.validMove(pos, this.turn)) {
+        console.log("Invalid move!");
+        this.playTurn(callback);
+        return;
+      }
+
+      this.board.placePiece(pos, this.turn);
+      this._flipTurn();
+      callback();
+    }
+  } else {
+    const pos = this.phil.bestMove();
+    console.log(`Phil: Hmmm... I think i'll go here ${pos}`);
     if (!this.board.validMove(pos, this.turn)) {
       console.log("Invalid move!");
       this.playTurn(callback);
